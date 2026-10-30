@@ -1,0 +1,81 @@
+@use '../../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.game-header {
+  display: grid;
+  grid-template-columns: 2.75rem 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+}
+
+.game-header__leave {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: 999px;
+  background: $color-surface-glass;
+  color: $color-text;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.game-header__leave:hover {
+  border-color: rgba($color-primary-cyan, 0.65);
+  color: $color-primary-cyan;
+}
+
+.game-header__score {
+  margin: 0;
+  justify-self: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: $gradient-brand;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.game-header__lives {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-self: end;
+  min-height: 2.75rem;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid $color-border;
+  border-radius: 999px;
+  background: $color-surface-glass;
+  color: $color-accent-pink;
+}
+
+.game-header__lives-count {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-text;
+  line-height: 1;
+}
+
+.game-header__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: block;
+}
+
+.game-header__icon--heart {
+  width: 1.25rem;
+  height: 1.25rem;
+}

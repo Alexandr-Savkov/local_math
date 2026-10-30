@@ -1,3 +1,10 @@
 <div class="game-page">
-  <h1 class="game-page__title">Timer</h1>
+  <app-game-header
+    [score]="store.currentScore()"
+    [lives]="store.currentLives()"
+    (leave)="onLeave()"
+  />
+  <div class="game-page__body">
+    <h1 class="game-page__title">Timer</h1>
+  </div>
 </div>
