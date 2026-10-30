@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppStore } from '../store/app.store';
 
@@ -32,8 +32,18 @@ export class Dashboard {
     { id: 'rocket', label: 'Rocket' },
   ];
 
+  private readonly levelImages: Record<ComplexityLevel, string> = {
+    easy: '/images/easy_level.png',
+    normal: '/images/normal_level.png',
+    rocket: '/images/rocket_level.png',
+  };
+
   protected readonly selectedGame = signal<GameType>('variants');
   protected readonly selectedLevel = signal<ComplexityLevel>('easy');
+
+  protected readonly levelImageSrc = computed(
+    () => this.levelImages[this.selectedLevel()],
+  );
 
   protected selectGame(game: GameType): void {
     this.selectedGame.set(game);

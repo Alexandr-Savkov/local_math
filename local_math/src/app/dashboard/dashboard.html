@@ -35,5 +35,9 @@
     </div>
   </section>
 
+  <div class="dashboard__level-image">
+    <img [src]="levelImageSrc()" [alt]="selectedLevel() + ' level'" />
+  </div>
+
   <button class="dashboard__next" type="button" (click)="onNext()">Next</button>
 </div>
