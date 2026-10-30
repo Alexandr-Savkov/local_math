@@ -1,0 +1,92 @@
+[
+  {
+    "question": "3 * 1",
+    "variants": [
+      5,
+      3,
+      6
+    ],
+    "answer": 3
+  },
+  {
+    "question": "3 * 2",
+    "variants": [
+      6,
+      8,
+      9
+    ],
+    "answer": 6
+  },
+  {
+    "question": "3 * 3",
+    "variants": [
+      11,
+      9,
+      12
+    ],
+    "answer": 9
+  },
+  {
+    "question": "3 * 4",
+    "variants": [
+      15,
+      14,
+      12
+    ],
+    "answer": 12
+  },
+  {
+    "question": "3 * 5",
+    "variants": [
+      15,
+      18,
+      17
+    ],
+    "answer": 15
+  },
+  {
+    "question": "3 * 6",
+    "variants": [
+      18,
+      20,
+      21
+    ],
+    "answer": 18
+  },
+  {
+    "question": "3 * 7",
+    "variants": [
+      24,
+      21,
+      23
+    ],
+    "answer": 21
+  },
+  {
+    "question": "3 * 8",
+    "variants": [
+      26,
+      24,
+      27
+    ],
+    "answer": 24
+  },
+  {
+    "question": "3 * 9",
+    "variants": [
+      30,
+      27,
+      29
+    ],
+    "answer": 27
+  },
+  {
+    "question": "3 * 10",
+    "variants": [
+      27,
+      32,
+      30
+    ],
+    "answer": 30
+  }
+]
