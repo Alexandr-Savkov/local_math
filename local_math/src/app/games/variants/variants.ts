@@ -4,10 +4,16 @@ import { AppStore } from '../../store/app.store';
 import { GameHeader } from '../../ui/game-header/game-header';
 import { MultiplicationTable, VariantTask } from './variant-task';
 
-const TABLES: MultiplicationTable[] = [2, 3, 4, 5, 6];
 const QUESTIONS_PER_SESSION = 10;
 const POINTS_PER_ANSWER = 100;
 const INITIAL_LIVES = 3;
+
+/** Easy → 2–4, Normal → 5–6, Rocket → all tables. */
+const LEVEL_TABLES: Record<number, MultiplicationTable[]> = {
+  1: [2, 3, 4],
+  2: [5, 6],
+  3: [2, 3, 4, 5, 6],
+};
 
 function shuffle<T>(items: readonly T[]): T[] {
   const result = [...items];
@@ -16,6 +22,10 @@ function shuffle<T>(items: readonly T[]): T[] {
     [result[i], result[j]] = [result[j], result[i]];
   }
   return result;
+}
+
+function pickRandom<T>(items: readonly T[]): T {
+  return items[Math.floor(Math.random() * items.length)]!;
 }
 
 @Component({
@@ -28,7 +38,7 @@ export class Variants implements OnInit {
   private readonly router = inject(Router);
   protected readonly store = inject(AppStore);
 
-  private allTasks: VariantTask[] = [];
+  private readonly tasksByTable = new Map<MultiplicationTable, VariantTask[]>();
 
   protected readonly questionsPerSession = QUESTIONS_PER_SESSION;
 
@@ -74,19 +84,16 @@ export class Variants implements OnInit {
     this.questionIndex.set(0);
     this.wrongAnswers.set([]);
     this.loadError.set(false);
+    this.loading.set(true);
 
-    if (this.allTasks.length === 0) {
-      this.loading.set(true);
-      try {
-        this.allTasks = await this.loadTasks();
-      } catch {
-        this.loadError.set(true);
-        this.loading.set(false);
-        return;
-      }
+    try {
+      this.session.set(await this.buildSession());
+    } catch {
+      this.loadError.set(true);
+      this.loading.set(false);
+      return;
     }
 
-    this.session.set(shuffle(this.allTasks).slice(0, QUESTIONS_PER_SESSION));
     this.loading.set(false);
   }
 
@@ -115,14 +122,38 @@ export class Variants implements OnInit {
     void this.router.navigate(['/dashboard']);
   }
 
-  private async loadTasks(): Promise<VariantTask[]> {
+  private async buildSession(): Promise<VariantTask[]> {
+    const level = this.store.currentLevel();
+    const tables = LEVEL_TABLES[level] ?? LEVEL_TABLES[1]!;
+
+    if (level === 3) {
+      const allTasks = await this.loadTables(tables);
+      return shuffle(allTasks).slice(0, QUESTIONS_PER_SESSION);
+    }
+
+    const table = pickRandom(tables);
+    const tasks = await this.loadTables([table]);
+    return tasks.slice(0, QUESTIONS_PER_SESSION);
+  }
+
+  private async loadTables(
+    tables: readonly MultiplicationTable[],
+  ): Promise<VariantTask[]> {
     const files = await Promise.all(
-      TABLES.map(async (table) => {
+      tables.map(async (table) => {
+        const cached = this.tasksByTable.get(table);
+        if (cached) {
+          return cached;
+        }
+
         const response = await fetch(`tasks/variants/${table}.json`);
         if (!response.ok) {
           throw new Error(`Failed to load table ${table}`);
         }
-        return (await response.json()) as VariantTask[];
+
+        const tasks = (await response.json()) as VariantTask[];
+        this.tasksByTable.set(table, tasks);
+        return tasks;
       }),
     );
     return files.flat();
