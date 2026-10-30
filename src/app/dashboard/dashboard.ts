@@ -33,9 +33,9 @@ export class Dashboard {
   ];
 
   private readonly levelImages: Record<ComplexityLevel, string> = {
-    easy: '/images/easy_level.png',
-    normal: '/images/normal_level.png',
-    rocket: '/images/rocket_level.png',
+    easy: 'images/easy_level.png',
+    normal: 'images/normal_level.png',
+    rocket: 'images/rocket_level.png',
   };
 
   protected readonly selectedGame = signal<GameType>('variants');
