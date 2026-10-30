@@ -1,0 +1,11 @@
+# SpecStory internal files: rewritten on every session update, ignored so they
+# stay out of commits and out of Claude Code's per-command edit diff
+# (https://github.com/specstoryai/getspecstory/issues/317)
+/debug/
+/statistics.json
+
+# Local session data and machine-specific config.
+# cli/ can hold API keys; see the warning in cli/config.toml.
+/history/
+/.project.json
+/cli/
