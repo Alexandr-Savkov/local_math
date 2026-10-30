@@ -1,10 +1,12 @@
+@use '../styles/variables' as *;
+
 :host {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100dvh;
   width: 100%;
-  background: #050b18;
+  background: $color-bg;
 }
 
 .phone-frame {
@@ -14,6 +16,6 @@
   max-height: 100dvh;
   overflow: hidden;
   position: relative;
-  background: #0a1630;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 60px rgba(0, 0, 0, 0.45);
+  background: $color-bg-elevated;
+  box-shadow: 0 0 0 1px rgba($color-text-white, 0.08), 0 24px 60px rgba(0, 0, 0, 0.45);
 }

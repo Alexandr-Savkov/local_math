@@ -1,0 +1,55 @@
+// Space Math brand tokens — derived from public/images/logo_space_math.png
+
+// ---------------------------------------------------------------------------
+// Primary
+// ---------------------------------------------------------------------------
+$color-bg-dark: #020621;
+$color-primary-cyan: #42e2ff;
+$color-primary-purple: #a44bff;
+$color-accent-pink: #d858ff;
+$color-accent-yellow: #ffd747;
+$color-text-white: #ffffff;
+
+// ---------------------------------------------------------------------------
+// Secondary
+// ---------------------------------------------------------------------------
+$color-indigo: #1c2b8e;
+$color-royal-blue: #4a3aff;
+$color-lavender: #b6a1ff;
+$color-soft-purple: #c68bff;
+
+// ---------------------------------------------------------------------------
+// Semantic aliases
+// ---------------------------------------------------------------------------
+$color-bg: $color-bg-dark;
+$color-bg-elevated: #0a1630;
+$color-text: $color-text-white;
+$color-text-muted: rgba($color-text-white, 0.72);
+$color-border: rgba($color-primary-cyan, 0.35);
+$color-focus: $color-primary-cyan;
+$color-error: #ff8f9f;
+
+// ---------------------------------------------------------------------------
+// Gradients
+// ---------------------------------------------------------------------------
+$gradient-brand: linear-gradient(90deg, $color-primary-cyan 0%, $color-soft-purple 100%);
+$gradient-planet: linear-gradient(
+  135deg,
+  $color-primary-cyan 0%,
+  $color-royal-blue 35%,
+  $color-primary-purple 70%,
+  $color-accent-pink 100%
+);
+$gradient-cta: linear-gradient(
+  135deg,
+  $color-primary-cyan 0%,
+  $color-primary-purple 55%,
+  $color-accent-pink 100%
+);
+
+// ---------------------------------------------------------------------------
+// Surfaces / overlays (login glass, cards)
+// ---------------------------------------------------------------------------
+$color-surface-glass: rgba(8, 18, 42, 0.82);
+$color-surface-input: rgba($color-text-white, 0.08);
+$color-shadow: rgba(0, 0, 0, 0.35);

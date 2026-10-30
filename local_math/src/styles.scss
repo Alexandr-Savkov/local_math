@@ -1,3 +1,5 @@
+@use './styles/variables' as *;
+
 *,
 *::before,
 *::after {
@@ -11,8 +13,8 @@ body {
   width: 100%;
   height: 100%;
   font-family: 'Avenir Next', 'Segoe UI', sans-serif;
-  background: #050b18;
-  color: #f4fbff;
+  background: $color-bg;
+  color: $color-text;
 }
 
 body {

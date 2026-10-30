@@ -1,0 +1,39 @@
+<div class="dashboard">
+  <section class="dashboard__section" aria-labelledby="game-heading">
+    <h2 id="game-heading" class="dashboard__heading">Choose game</h2>
+    <div class="dashboard__options" role="radiogroup" aria-labelledby="game-heading">
+      @for (game of games; track game.id) {
+        <button
+          type="button"
+          class="dashboard__option"
+          role="radio"
+          [attr.aria-checked]="selectedGame() === game.id"
+          [class.dashboard__option--selected]="selectedGame() === game.id"
+          (click)="selectGame(game.id)"
+        >
+          {{ game.label }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="dashboard__section" aria-labelledby="level-heading">
+    <h2 id="level-heading" class="dashboard__heading">Choose level</h2>
+    <div class="dashboard__options" role="radiogroup" aria-labelledby="level-heading">
+      @for (level of levels; track level.id) {
+        <button
+          type="button"
+          class="dashboard__option"
+          role="radio"
+          [attr.aria-checked]="selectedLevel() === level.id"
+          [class.dashboard__option--selected]="selectedLevel() === level.id"
+          (click)="selectLevel(level.id)"
+        >
+          {{ level.label }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <button class="dashboard__next" type="button" (click)="onNext()">Next</button>
+</div>
