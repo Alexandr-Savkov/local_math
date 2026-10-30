@@ -4,7 +4,48 @@
     [lives]="store.currentLives()"
     (leave)="onLeave()"
   />
+
   <div class="game-page__body">
-    <h1 class="game-page__title">Variants</h1>
+    @if (loading()) {
+      <p class="game-page__message">Loading…</p>
+    } @else if (loadError()) {
+      <p class="game-page__message">Could not load questions.</p>
+      <button type="button" class="game-page__action" (click)="onPlayAgain()">Retry</button>
+    } @else if (isGameOver()) {
+      <img class="game-page__result-image" src="/images/session_failed.png" alt="Session failed" />
+      <h1 class="game-page__title">Game over</h1>
+      <p class="game-page__message">Score: {{ store.currentScore() }}</p>
+      <button type="button" class="game-page__action" (click)="onPlayAgain()">Play again</button>
+      <button type="button" class="game-page__action game-page__action--secondary" (click)="onLeave()">
+        Back to dashboard
+      </button>
+    } @else if (isFinished()) {
+      <img class="game-page__result-image" src="/images/session_done.png" alt="Session completed" />
+      <h1 class="game-page__title">Well done!</h1>
+      <p class="game-page__message">Score: {{ store.currentScore() }}</p>
+      <button type="button" class="game-page__action" (click)="onPlayAgain()">Play again</button>
+      <button type="button" class="game-page__action game-page__action--secondary" (click)="onLeave()">
+        Back to dashboard
+      </button>
+    } @else {
+      <p class="game-page__progress">
+        Question {{ questionIndex() + 1 }} / {{ questionsPerSession }}
+      </p>
+      <h1 class="game-page__question">{{ currentTask()?.question }}</h1>
+
+      <div class="game-page__variants">
+        @for (variant of currentVariants(); track variant) {
+          <button
+            type="button"
+            class="game-page__variant"
+            [class.game-page__variant--wrong]="wrongAnswers().includes(variant)"
+            [disabled]="wrongAnswers().includes(variant)"
+            (click)="onAnswer(variant)"
+          >
+            {{ variant }}
+          </button>
+        }
+      </div>
+    }
   </div>
 </div>
