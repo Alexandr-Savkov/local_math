@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 
 /** Inner fuel tank bounds inside the SVG viewBox. */
-const TANK = { x: 78, y: 148, width: 44, height: 72 } as const;
+const TANK = { x: 80, y: 150, width: 40, height: 72 } as const;
 
 @Component({
   selector: 'app-rocket-fuel',
@@ -13,6 +13,7 @@ export class RocketFuel {
   readonly fuelPercent = input.required<number>();
 
   protected readonly tank = TANK;
+  protected readonly tankTicks = [8, 16, 24, 32, 40, 48, 56, 64] as const;
 
   protected readonly clamped = computed(() =>
     Math.min(100, Math.max(0, Math.round(this.fuelPercent()))),
