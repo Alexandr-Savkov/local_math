@@ -1,10 +1,60 @@
-<div class="game-page">
+<div
+  class="game-page"
+  [class.game-page--flash-wrong]="flashWrong()"
+  [class.game-page--flash-correct]="flashCorrect()"
+>
   <app-game-header
     [score]="store.currentScore()"
-    [lives]="store.currentLives()"
+    [showLives]="false"
     (leave)="onLeave()"
   />
+
   <div class="game-page__body">
-    <h1 class="game-page__title">Таймер</h1>
+    @if (!hasStarted()) {
+      <img
+        class="game-page__result-image"
+        src="images/to_the_Moon.png"
+        alt="Ракета летит к Луне"
+      />
+      <p class="game-page__intro">
+        Тебе нужно набрать как можно больше очков за 30 секунд.<br />
+        Позже ты сможешь обменять их на топливо.
+      </p>
+      <button type="button" class="game-page__action" (click)="onStart()">Старт</button>
+    } @else if (loading()) {
+      <p class="game-page__message">Загрузка…</p>
+    } @else if (loadError()) {
+      <p class="game-page__message">Не удалось загрузить вопросы.</p>
+      <button type="button" class="game-page__action" (click)="onPlayAgain()">Повторить</button>
+    } @else if (isFinished()) {
+      <img class="game-page__result-image" src="images/session_done.png" alt="Сессия завершена" />
+      <h1 class="game-page__title">Время вышло!</h1>
+      <p class="game-page__message">Счёт: {{ store.currentScore() }}</p>
+      <button type="button" class="game-page__action" (click)="onPlayAgain()">Играть снова</button>
+      <button type="button" class="game-page__action game-page__action--secondary" (click)="onLeave()">
+        На главную
+      </button>
+    } @else if (isPlaying()) {
+      <p
+        class="game-page__timer"
+        [class.game-page__timer--urgent]="secondsLeft() <= 5"
+        aria-live="polite"
+      >
+        {{ secondsLeft() }}
+      </p>
+      <h1 class="game-page__question">{{ currentTask()?.question }}</h1>
+
+      <div class="game-page__variants">
+        @for (variant of currentVariants(); track variant) {
+          <button
+            type="button"
+            class="game-page__variant"
+            (click)="onAnswer(variant)"
+          >
+            {{ variant }}
+          </button>
+        }
+      </div>
+    }
   </div>
 </div>
