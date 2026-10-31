@@ -31,6 +31,7 @@
       <p class="game-page__progress">
         Question {{ questionIndex() + 1 }} / {{ questionsPerSession }}
       </p>
+      <app-rocket-fuel [fuelPercent]="fuelPercent()" />
       <h1 class="game-page__question">{{ currentTask()?.question }}</h1>
 
       <div class="game-page__variants">

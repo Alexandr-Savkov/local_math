@@ -1,0 +1,56 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 12.5rem;
+  margin-inline: auto;
+  line-height: 0;
+}
+
+.rocket-fuel {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.rocket-fuel__liquid {
+  transition:
+    y 0.45s ease,
+    height 0.45s ease;
+}
+
+.rocket-fuel__flame {
+  transform-origin: center bottom;
+  animation: rocket-flame 0.35s ease-in-out infinite alternate;
+}
+
+.rocket-fuel__flame--side {
+  animation-duration: 0.28s;
+  animation-delay: 0.08s;
+}
+
+.rocket-fuel__glow {
+  animation: rocket-glow 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes rocket-flame {
+  from {
+    transform: scaleY(0.88) scaleX(1.05);
+    opacity: 0.85;
+  }
+
+  to {
+    transform: scaleY(1.08) scaleX(0.95);
+    opacity: 1;
+  }
+}
+
+@keyframes rocket-glow {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

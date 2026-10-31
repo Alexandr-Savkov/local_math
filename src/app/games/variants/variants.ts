@@ -2,10 +2,12 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppStore } from '../../store/app.store';
 import { GameHeader } from '../../ui/game-header/game-header';
+import { RocketFuel } from '../../ui/rocket-fuel/rocket-fuel';
 import { MultiplicationTable, VariantTask } from './variant-task';
 
 const QUESTIONS_PER_SESSION = 10;
 const POINTS_PER_ANSWER = 100;
+const FUEL_PERCENT_PER_ANSWER = 10;
 const INITIAL_LIVES = 3;
 
 /** Easy → 2–4, Normal → 5–6, Rocket → all tables. */
@@ -30,7 +32,7 @@ function pickRandom<T>(items: readonly T[]): T {
 
 @Component({
   selector: 'app-variants',
-  imports: [GameHeader],
+  imports: [GameHeader, RocketFuel],
   templateUrl: './variants.html',
   styleUrl: './variants.scss',
 })
@@ -41,6 +43,16 @@ export class Variants implements OnInit {
   private readonly tasksByTable = new Map<MultiplicationTable, VariantTask[]>();
 
   protected readonly questionsPerSession = QUESTIONS_PER_SESSION;
+
+  /** +10% fuel per correct answer; capped at 100%. */
+  protected readonly fuelPercent = computed(() =>
+    Math.min(
+      100,
+      Math.round(
+        (this.store.currentScore() / POINTS_PER_ANSWER) * FUEL_PERCENT_PER_ANSWER,
+      ),
+    ),
+  );
 
   protected readonly loading = signal(true);
   protected readonly loadError = signal(false);
