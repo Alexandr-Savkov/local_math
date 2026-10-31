@@ -6,7 +6,14 @@
   />
 
   <div class="game-page__body">
-    @if (loading()) {
+    @if (!hasStarted()) {
+      <p class="game-page__intro">
+        Чтобы долететь до луны, нам нужно заправить ракету.<br />
+        Каждый правильный ответ добавит 10% бака.<br />
+        Но будь внимателен, у тебя есть только 3 права на ошибку.
+      </p>
+      <button type="button" class="game-page__action" (click)="onStart()">Старт</button>
+    } @else if (loading()) {
       <p class="game-page__message">Загрузка…</p>
     } @else if (loadError()) {
       <p class="game-page__message">Не удалось загрузить вопросы.</p>

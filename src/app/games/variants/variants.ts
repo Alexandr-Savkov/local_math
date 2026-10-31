@@ -54,23 +54,27 @@ export class Variants implements OnInit {
     ),
   );
 
-  protected readonly loading = signal(true);
+  protected readonly hasStarted = signal(false);
+  protected readonly loading = signal(false);
   protected readonly loadError = signal(false);
   protected readonly session = signal<VariantTask[]>([]);
   protected readonly questionIndex = signal(0);
   protected readonly wrongAnswers = signal<number[]>([]);
 
   protected readonly isGameOver = computed(
-    () => !this.loading() && this.store.currentLives() <= 0,
+    () =>
+      this.hasStarted() && !this.loading() && this.store.currentLives() <= 0,
   );
   protected readonly isFinished = computed(
     () =>
+      this.hasStarted() &&
       !this.loading() &&
       this.session().length > 0 &&
       this.questionIndex() >= this.session().length,
   );
   protected readonly isPlaying = computed(
     () =>
+      this.hasStarted() &&
       !this.loading() &&
       !this.loadError() &&
       !this.isGameOver() &&
@@ -86,7 +90,14 @@ export class Variants implements OnInit {
   });
 
   ngOnInit(): void {
-    void this.startSession();
+    this.store.setCurrentScore(0);
+    this.store.setCurrentLives(INITIAL_LIVES);
+    this.store.setIsGameGoing(false);
+  }
+
+  protected async onStart(): Promise<void> {
+    this.hasStarted.set(true);
+    await this.startSession();
   }
 
   protected async startSession(): Promise<void> {
