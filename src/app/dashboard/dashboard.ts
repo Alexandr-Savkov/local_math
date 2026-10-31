@@ -21,15 +21,15 @@ export class Dashboard {
   private readonly store = inject(AppStore);
 
   protected readonly games: { id: GameType; label: string }[] = [
-    { id: 'variants', label: 'Variants' },
-    { id: 'answer', label: 'Answer' },
-    { id: 'timer', label: 'Timer' },
+    { id: 'variants', label: 'Варианты' },
+    { id: 'answer', label: 'Ответ' },
+    { id: 'timer', label: 'Таймер' },
   ];
 
   protected readonly levels: { id: ComplexityLevel; label: string }[] = [
-    { id: 'easy', label: 'Easy' },
-    { id: 'normal', label: 'Normal' },
-    { id: 'rocket', label: 'Rocket' },
+    { id: 'easy', label: 'Лёгкий' },
+    { id: 'normal', label: 'Обычный' },
+    { id: 'rocket', label: 'Ракета' },
   ];
 
   private readonly levelImages: Record<ComplexityLevel, string> = {
@@ -44,6 +44,13 @@ export class Dashboard {
   protected readonly levelImageSrc = computed(
     () => this.levelImages[this.selectedLevel()],
   );
+
+  protected readonly levelImageAlt = computed(() => {
+    const label =
+      this.levels.find((level) => level.id === this.selectedLevel())?.label ??
+      this.selectedLevel();
+    return `Уровень: ${label}`;
+  });
 
   protected selectGame(game: GameType): void {
     this.selectedGame.set(game);

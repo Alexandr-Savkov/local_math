@@ -7,29 +7,29 @@
 
   <div class="game-page__body">
     @if (loading()) {
-      <p class="game-page__message">Loading…</p>
+      <p class="game-page__message">Загрузка…</p>
     } @else if (loadError()) {
-      <p class="game-page__message">Could not load questions.</p>
-      <button type="button" class="game-page__action" (click)="onPlayAgain()">Retry</button>
+      <p class="game-page__message">Не удалось загрузить вопросы.</p>
+      <button type="button" class="game-page__action" (click)="onPlayAgain()">Повторить</button>
     } @else if (isGameOver()) {
-      <img class="game-page__result-image" src="images/session_failed.png" alt="Session failed" />
-      <h1 class="game-page__title">Game over</h1>
-      <p class="game-page__message">Score: {{ store.currentScore() }}</p>
-      <button type="button" class="game-page__action" (click)="onPlayAgain()">Play again</button>
+      <img class="game-page__result-image" src="images/session_failed.png" alt="Сессия провалена" />
+      <h1 class="game-page__title">Игра окончена</h1>
+      <p class="game-page__message">Счёт: {{ store.currentScore() }}</p>
+      <button type="button" class="game-page__action" (click)="onPlayAgain()">Играть снова</button>
       <button type="button" class="game-page__action game-page__action--secondary" (click)="onLeave()">
-        Back to dashboard
+        На главную
       </button>
     } @else if (isFinished()) {
-      <img class="game-page__result-image" src="images/session_done.png" alt="Session completed" />
-      <h1 class="game-page__title">Well done!</h1>
-      <p class="game-page__message">Score: {{ store.currentScore() }}</p>
-      <button type="button" class="game-page__action" (click)="onPlayAgain()">Play again</button>
+      <img class="game-page__result-image" src="images/session_done.png" alt="Сессия завершена" />
+      <h1 class="game-page__title">Молодец!</h1>
+      <p class="game-page__message">Счёт: {{ store.currentScore() }}</p>
+      <button type="button" class="game-page__action" (click)="onPlayAgain()">Играть снова</button>
       <button type="button" class="game-page__action game-page__action--secondary" (click)="onLeave()">
-        Back to dashboard
+        На главную
       </button>
     } @else {
       <p class="game-page__progress">
-        Question {{ questionIndex() + 1 }} / {{ questionsPerSession }}
+        Вопрос {{ questionIndex() + 1 }} / {{ questionsPerSession }}
       </p>
       <app-rocket-fuel [fuelPercent]="fuelPercent()" />
       <h1 class="game-page__question">{{ currentTask()?.question }}</h1>

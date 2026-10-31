@@ -30,6 +30,6 @@ export class Login {
       return;
     }
 
-    this.error.set('Invalid username or password');
+    this.error.set('Неверное имя или пароль');
   }
 }

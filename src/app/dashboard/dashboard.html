@@ -1,6 +1,6 @@
 <div class="dashboard">
   <section class="dashboard__section" aria-labelledby="game-heading">
-    <h2 id="game-heading" class="dashboard__heading">Choose game</h2>
+    <h2 id="game-heading" class="dashboard__heading">Выбери игру</h2>
     <div class="dashboard__options" role="radiogroup" aria-labelledby="game-heading">
       @for (game of games; track game.id) {
         <button
@@ -18,7 +18,7 @@
   </section>
 
   <section class="dashboard__section" aria-labelledby="level-heading">
-    <h2 id="level-heading" class="dashboard__heading">Choose level</h2>
+    <h2 id="level-heading" class="dashboard__heading">Выбери уровень</h2>
     <div class="dashboard__options" role="radiogroup" aria-labelledby="level-heading">
       @for (level of levels; track level.id) {
         <button
@@ -36,8 +36,8 @@
   </section>
 
   <div class="dashboard__level-image">
-    <img [src]="levelImageSrc()" [alt]="selectedLevel() + ' level'" />
+    <img [src]="levelImageSrc()" [alt]="levelImageAlt()" />
   </div>
 
-  <button class="dashboard__next" type="button" (click)="onNext()">Next</button>
+  <button class="dashboard__next" type="button" (click)="onNext()">Далее</button>
 </div>
