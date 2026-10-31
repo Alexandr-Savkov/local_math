@@ -43,10 +43,26 @@
   font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: 0.02em;
+  line-height: 1;
   background: $gradient-brand;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.game-header__score--pop {
+  animation: score-pop 0.35s ease;
+}
+
+@keyframes score-pop {
+  0%,
+  100% {
+    font-size: 1.5rem;
+  }
+
+  40% {
+    font-size: 2.15rem;
+  }
 }
 
 .game-header__lives {

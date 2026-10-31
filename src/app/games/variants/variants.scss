@@ -75,12 +75,15 @@
 
 .game-page__variants {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 0.75rem;
   width: 100%;
 }
 
 .game-page__variant {
+  flex: 1 1 0;
+  min-width: 0;
   min-height: 4rem;
   padding: 0.75rem;
   border: 1px solid $color-border;

@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-game-header',
@@ -11,7 +11,26 @@ export class GameHeader {
 
   readonly leave = output<void>();
 
+  protected readonly scorePop = signal(false);
+
+  private previousScore = 0;
+
+  constructor() {
+    effect(() => {
+      const current = this.score();
+      if (current > this.previousScore) {
+        this.scorePop.set(false);
+        requestAnimationFrame(() => this.scorePop.set(true));
+      }
+      this.previousScore = current;
+    });
+  }
+
   protected onLeave(): void {
     this.leave.emit();
+  }
+
+  protected onScorePopEnd(): void {
+    this.scorePop.set(false);
   }
 }

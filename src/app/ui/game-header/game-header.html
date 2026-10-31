@@ -18,7 +18,14 @@
     </svg>
   </button>
 
-  <p class="game-header__score" aria-live="polite">{{ score() }}</p>
+  <p
+    class="game-header__score"
+    [class.game-header__score--pop]="scorePop()"
+    aria-live="polite"
+    (animationend)="onScorePopEnd()"
+  >
+    {{ score() }}
+  </p>
 
   <div class="game-header__lives" aria-label="Lives: {{ lives() }}">
     <svg
