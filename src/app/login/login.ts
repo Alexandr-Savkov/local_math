@@ -2,8 +2,8 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
-const MOCK_USERNAME = 'Misha';
-const MOCK_PASSWORD = 'monkey-misha';
+const MOCK_USERNAME = 'Миша';
+const MOCK_PASSWORD = 'Бобр';
 
 @Component({
   selector: 'app-login',
