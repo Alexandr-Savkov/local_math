@@ -1,0 +1,348 @@
+@use '../../../styles/variables' as *;
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: $color-bg;
+  color: $color-text;
+}
+
+.game-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.game-page__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  min-height: 0;
+  padding: 1.5rem;
+}
+
+.game-page__title {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  background: $gradient-brand;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.game-page__result-image {
+  flex: 0 1 auto;
+  max-width: 100%;
+  min-height: 0;
+  max-height: 45%;
+  object-fit: contain;
+}
+
+.game-page__intro {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: $color-text-muted;
+  text-align: center;
+}
+
+.game-page__message {
+  margin: 0;
+  font-size: 1.125rem;
+  color: $color-text-muted;
+  text-align: center;
+}
+
+.game-page__action {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.75rem;
+  border: 0;
+  border-radius: 0.875rem;
+  background: $gradient-cta;
+  color: $color-text;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.game-page__action--secondary {
+  border: 1px solid $color-border;
+  background: $color-surface-glass;
+}
+
+.arena {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  gap: 0.75rem;
+}
+
+.arena__progress {
+  margin: 0;
+  flex: 0 0 auto;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: $color-text-muted;
+  text-align: center;
+}
+
+.arena__field {
+  position: relative;
+  flex: 1;
+  min-height: 18rem;
+  overflow: hidden;
+  border: 1px solid $color-border;
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at 20% 15%, rgba($color-primary-purple, 0.18), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba($color-primary-cyan, 0.12), transparent 35%),
+    linear-gradient(180deg, #050b22 0%, #0a1630 55%, #071022 100%);
+}
+
+.asteroid {
+  position: absolute;
+  z-index: 2;
+  width: 6.5rem;
+  height: 6.5rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.35s ease, filter 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-focus;
+    outline-offset: 4px;
+    border-radius: 50%;
+  }
+}
+
+.asteroid__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba($color-primary-cyan, 0.25));
+  user-select: none;
+}
+
+.asteroid__value {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: $color-text;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+}
+
+.asteroid--wrong {
+  filter: drop-shadow(0 0 12px rgba($color-error, 0.95));
+
+  .asteroid__value {
+    color: $color-error;
+  }
+}
+
+.asteroid--destroying {
+  opacity: 0;
+  pointer-events: none;
+  filter: blur(3px);
+}
+
+.ship {
+  position: absolute;
+  left: 50%;
+  bottom: 0.5rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  transform: translateX(-50%);
+}
+
+.ship--hit {
+  animation: ship-hit 0.45s ease;
+}
+
+.ship__prompt {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ship__bubble {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 7.5rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid $color-border;
+  border-radius: 0.85rem;
+  background: $color-surface-glass;
+  box-shadow: 0 8px 24px $color-shadow;
+}
+
+.ship__skip {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid $color-border;
+  border-radius: 0.85rem;
+  background: $color-surface-glass;
+  color: $color-primary-cyan;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    border-color: $color-primary-cyan;
+    background: rgba($color-primary-cyan, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-focus;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.ship__skip-icon {
+  display: block;
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.ship__bubble-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $color-text-muted;
+}
+
+.ship__bubble-question {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  background: $gradient-brand;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ship__body {
+  width: 5.5rem;
+  line-height: 0;
+}
+
+.ship__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.ship__flame {
+  transform-origin: 60px 156px;
+  animation: ship-flame 0.32s ease-in-out infinite alternate;
+}
+
+.game-page--crashing .ship__flame {
+  animation-duration: 0.14s;
+}
+
+.game-page--ship-hit .arena__field {
+  animation: arena-flash 0.45s ease;
+}
+
+@keyframes ship-flame {
+  from {
+    transform: scaleY(0.88) scaleX(1.08);
+    opacity: 0.85;
+  }
+
+  to {
+    transform: scaleY(1.12) scaleX(0.92);
+    opacity: 1;
+  }
+}
+
+@keyframes ship-hit {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  30% {
+    transform: translateX(-50%) translateY(8px) rotate(-4deg);
+  }
+
+  60% {
+    transform: translateX(-50%) translateY(-4px) rotate(3deg);
+  }
+}
+
+@keyframes arena-flash {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 rgba($color-error, 0);
+  }
+
+  40% {
+    box-shadow: inset 0 0 60px rgba($color-error, 0.35);
+  }
+}
+
+@media (max-width: 420px) {
+  .game-page__body {
+    padding: 1rem;
+  }
+
+  .asteroid {
+    width: 5.75rem;
+    height: 5.75rem;
+  }
+
+  .ship__body {
+    width: 4.75rem;
+  }
+
+  .ship__bubble-question {
+    font-size: 1.25rem;
+  }
+}

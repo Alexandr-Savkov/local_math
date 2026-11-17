@@ -168,6 +168,7 @@ export class Variants implements OnInit {
 
     this.resultSaved = true;
     this.store.saveGameResult({
+      game: 'variants',
       correct: this.correctCount(),
       incorrect: this.incorrectCount(),
     });

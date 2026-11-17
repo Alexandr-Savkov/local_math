@@ -230,6 +230,7 @@ export class Answer implements OnInit {
 
     this.resultSaved = true;
     this.store.saveGameResult({
+      game: 'answer',
       correct: this.correctCount(),
       incorrect: this.incorrectCount(),
     });

@@ -3,6 +3,8 @@ export interface GameResult {
   date: string;
   correct: number;
   incorrect: number;
+  /** Optional game id (variants, answer, timer, meteors). */
+  game?: string;
 }
 
 export type StatsPeriod = 'today' | '7days' | '30days';
@@ -31,11 +33,28 @@ function isGameResult(value: unknown): value is GameResult {
   }
 
   const candidate = value as Record<string, unknown>;
+  const gameOk =
+    candidate['game'] === undefined || typeof candidate['game'] === 'string';
   return (
     typeof candidate['date'] === 'string' &&
     typeof candidate['correct'] === 'number' &&
-    typeof candidate['incorrect'] === 'number'
+    typeof candidate['incorrect'] === 'number' &&
+    gameOk
   );
+}
+
+/** Sum of correct answers for a calendar day, optionally excluding a game. */
+export function todayCorrectCount(
+  results: readonly GameResult[],
+  options?: { excludeGame?: string; now?: Date },
+): number {
+  const today = filterResultsByPeriod(results, 'today', options?.now);
+  return today.reduce((sum, result) => {
+    if (options?.excludeGame && result.game === options.excludeGame) {
+      return sum;
+    }
+    return sum + result.correct;
+  }, 0);
 }
 
 export function loadGameResults(): GameResult[] {

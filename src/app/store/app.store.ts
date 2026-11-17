@@ -81,6 +81,7 @@ export const AppStore = signalStore(
         date: result.date ?? toDateKey(),
         correct: result.correct,
         incorrect: result.incorrect,
+        ...(result.game !== undefined ? { game: result.game } : {}),
       };
       const gameResults = [...store.gameResults(), entry];
       persistGameResults(gameResults);

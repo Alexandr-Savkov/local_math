@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppStore } from '../store/app.store';
 
-export type GameType = 'variants' | 'answer' | 'timer';
+export type GameType = 'variants' | 'answer' | 'timer' | 'meteors';
 export type ComplexityLevel = 'easy' | 'normal' | 'rocket';
 
 const LEVEL_TO_NUMBER: Record<ComplexityLevel, number> = {
@@ -24,6 +24,7 @@ export class Dashboard {
     { id: 'variants', label: 'Варианты' },
     { id: 'answer', label: 'Ответ' },
     { id: 'timer', label: 'Таймер' },
+    { id: 'meteors', label: 'Астероиды' },
   ];
 
   protected readonly levels: { id: ComplexityLevel; label: string }[] = [

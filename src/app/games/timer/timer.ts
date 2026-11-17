@@ -183,6 +183,7 @@ export class Timer implements OnInit, OnDestroy {
 
     this.resultSaved = true;
     this.store.saveGameResult({
+      game: 'timer',
       correct: this.correctCount(),
       incorrect: this.incorrectCount(),
     });
