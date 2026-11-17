@@ -13,15 +13,45 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+  transition: background-color 0.15s ease;
+}
+
+.game-page--flash-wrong {
+  animation: flash-wrong 0.28s ease;
+}
+
+@keyframes flash-wrong {
+  0%,
+  100% {
+    background-color: transparent;
+  }
+
+  40% {
+    background-color: rgba($color-error, 0.35);
+  }
 }
 
 .game-page__body {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.75rem;
   min-height: 0;
-  padding: 1.5rem;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.game-page__play {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .game-page__title {
@@ -34,4 +64,152 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.game-page__result-image {
+  flex: 0 1 auto;
+  max-width: 100%;
+  min-height: 0;
+  max-height: 45%;
+  object-fit: contain;
+}
+
+.game-page__intro {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: $color-text-muted;
+  text-align: center;
+}
+
+.game-page__message {
+  margin: 0;
+  font-size: 1.125rem;
+  color: $color-text-muted;
+  text-align: center;
+}
+
+.game-page__progress {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: $color-text-muted;
+}
+
+app-rocket-fuel {
+  flex: 0 1 auto;
+  width: 100%;
+  max-width: 9.5rem;
+  min-height: 0;
+}
+
+.game-page__question {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  background: $gradient-brand;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.game-page__answer-field {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid $color-border;
+  border-radius: 0.75rem;
+  background: $color-surface-input;
+  color: $color-text;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.game-page__answer-field--empty {
+  color: $color-text-muted;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.game-page__controls {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 20rem;
+  margin-top: auto;
+}
+
+.game-page__keypad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.game-page__key {
+  min-height: 2.5rem;
+  padding: 0.25rem;
+  border: 1px solid $color-border;
+  border-radius: 0.75rem;
+  background: $color-surface-glass;
+  color: $color-text;
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+
+  &:hover {
+    border-color: $color-primary-cyan;
+    background: rgba($color-primary-cyan, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-focus;
+    outline-offset: 2px;
+  }
+}
+
+.game-page__key--action {
+  font-size: 1.05rem;
+  color: $color-primary-cyan;
+}
+
+.game-page__action {
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.5rem;
+  border: 0;
+  border-radius: 0.75rem;
+  background: $gradient-cta;
+  color: $color-text;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.game-page__action--secondary {
+  border: 1px solid $color-border;
+  background: $color-surface-glass;
 }
