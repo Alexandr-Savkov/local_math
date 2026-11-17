@@ -39,5 +39,10 @@
     <img [src]="levelImageSrc()" [alt]="levelImageAlt()" />
   </div>
 
-  <button class="dashboard__next" type="button" (click)="onNext()">Далее</button>
+  <div class="dashboard__actions">
+    <button class="dashboard__next" type="button" (click)="onNext()">Далее</button>
+    <button class="dashboard__stats" type="button" (click)="onStatistics()">
+      Статистика
+    </button>
+  </div>
 </div>

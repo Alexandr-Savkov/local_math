@@ -60,6 +60,9 @@ export class Variants implements OnInit {
   protected readonly session = signal<VariantTask[]>([]);
   protected readonly questionIndex = signal(0);
   protected readonly wrongAnswers = signal<number[]>([]);
+  protected readonly correctCount = signal(0);
+  protected readonly incorrectCount = signal(0);
+  private resultSaved = false;
 
   protected readonly isGameOver = computed(
     () =>
@@ -106,6 +109,9 @@ export class Variants implements OnInit {
     this.store.setIsGameGoing(true);
     this.questionIndex.set(0);
     this.wrongAnswers.set([]);
+    this.correctCount.set(0);
+    this.incorrectCount.set(0);
+    this.resultSaved = false;
     this.loadError.set(false);
     this.loading.set(true);
 
@@ -128,11 +134,21 @@ export class Variants implements OnInit {
 
     if (variant === task.answer) {
       this.store.setCurrentScore(this.store.currentScore() + POINTS_PER_ANSWER);
+      this.correctCount.update((count) => count + 1);
       this.wrongAnswers.set([]);
-      this.questionIndex.update((index) => index + 1);
+      const nextIndex = this.questionIndex() + 1;
+      this.questionIndex.set(nextIndex);
+      if (nextIndex >= this.session().length) {
+        this.saveSessionResult();
+      }
     } else {
       this.wrongAnswers.update((wrong) => [...wrong, variant]);
-      this.store.setCurrentLives(Math.max(0, this.store.currentLives() - 1));
+      this.incorrectCount.update((count) => count + 1);
+      const lives = Math.max(0, this.store.currentLives() - 1);
+      this.store.setCurrentLives(lives);
+      if (lives <= 0) {
+        this.saveSessionResult();
+      }
     }
   }
 
@@ -143,6 +159,18 @@ export class Variants implements OnInit {
   protected onLeave(): void {
     this.store.setIsGameGoing(false);
     void this.router.navigate(['/dashboard']);
+  }
+
+  private saveSessionResult(): void {
+    if (this.resultSaved) {
+      return;
+    }
+
+    this.resultSaved = true;
+    this.store.saveGameResult({
+      correct: this.correctCount(),
+      incorrect: this.incorrectCount(),
+    });
   }
 
   private async buildSession(): Promise<VariantTask[]> {

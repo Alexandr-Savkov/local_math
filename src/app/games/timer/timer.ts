@@ -57,6 +57,9 @@ export class Timer implements OnInit, OnDestroy {
   protected readonly flashWrong = signal(false);
   protected readonly flashCorrect = signal(false);
   protected readonly isFinished = signal(false);
+  protected readonly correctCount = signal(0);
+  protected readonly incorrectCount = signal(0);
+  private resultSaved = false;
 
   protected readonly isPlaying = computed(
     () =>
@@ -93,6 +96,9 @@ export class Timer implements OnInit, OnDestroy {
     this.flashCorrect.set(false);
     this.currentTask.set(null);
     this.currentVariants.set([]);
+    this.correctCount.set(0);
+    this.incorrectCount.set(0);
+    this.resultSaved = false;
     this.loadError.set(false);
     this.loading.set(true);
 
@@ -122,6 +128,7 @@ export class Timer implements OnInit, OnDestroy {
 
     if (variant === task.answer) {
       this.store.setCurrentScore(this.store.currentScore() + POINTS_CORRECT);
+      this.correctCount.update((count) => count + 1);
       this.triggerFlash('correct');
       this.nextQuestion();
       return;
@@ -130,6 +137,7 @@ export class Timer implements OnInit, OnDestroy {
     this.store.setCurrentScore(
       Math.max(0, this.store.currentScore() - POINTS_WRONG),
     );
+    this.incorrectCount.update((count) => count + 1);
     this.triggerFlash('wrong');
     this.nextQuestion();
   }
@@ -165,6 +173,19 @@ export class Timer implements OnInit, OnDestroy {
     this.flashCorrect.set(false);
     this.isFinished.set(true);
     this.store.setIsGameGoing(false);
+    this.saveSessionResult();
+  }
+
+  private saveSessionResult(): void {
+    if (this.resultSaved) {
+      return;
+    }
+
+    this.resultSaved = true;
+    this.store.saveGameResult({
+      correct: this.correctCount(),
+      incorrect: this.incorrectCount(),
+    });
   }
 
   private nextQuestion(): void {

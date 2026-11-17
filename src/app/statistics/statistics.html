@@ -1,0 +1,82 @@
+<div class="statistics">
+  <header class="statistics__header">
+    <button
+      type="button"
+      class="statistics__back"
+      aria-label="Назад"
+      (click)="onBack()"
+    >
+      <svg
+        class="statistics__back-icon"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+          fill="currentColor"
+        />
+      </svg>
+    </button>
+    <h1 class="statistics__title">Статистика</h1>
+  </header>
+
+  <div
+    class="statistics__periods"
+    role="radiogroup"
+    aria-label="Период статистики"
+  >
+    @for (period of periods; track period.id) {
+      <button
+        type="button"
+        class="statistics__period"
+        role="radio"
+        [attr.aria-checked]="store.statsPeriod() === period.id"
+        [class.statistics__period--selected]="store.statsPeriod() === period.id"
+        (click)="selectPeriod(period.id)"
+      >
+        {{ period.label }}
+      </button>
+    }
+  </div>
+
+  <div class="statistics__body">
+    @if (store.periodRows().length === 0) {
+      <p class="statistics__empty">Пока нет данных для отображения</p>
+    } @else {
+      <div class="statistics__table-wrap">
+        <table class="statistics__table">
+          <thead>
+            <tr>
+              <th scope="col">Дата</th>
+              <th scope="col">Игр</th>
+              <th scope="col">Правильные</th>
+              <th scope="col">Ошибки</th>
+              <th scope="col">% правильных</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of store.periodRows(); track row.date) {
+              <tr>
+                <td>{{ formatDate(row.date) }}</td>
+                <td>{{ row.games }}</td>
+                <td>{{ row.correct }}</td>
+                <td>{{ row.incorrect }}</td>
+                <td>{{ row.correctPercent }}%</td>
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">{{ store.periodTotals().date }}</th>
+              <td>{{ store.periodTotals().games }}</td>
+              <td>{{ store.periodTotals().correct }}</td>
+              <td>{{ store.periodTotals().incorrect }}</td>
+              <td>{{ store.periodTotals().correctPercent }}%</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    }
+  </div>
+</div>

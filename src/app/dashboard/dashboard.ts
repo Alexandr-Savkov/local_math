@@ -70,4 +70,8 @@ export class Dashboard {
 
     void this.router.navigate(['/games', game]);
   }
+
+  protected onStatistics(): void {
+    void this.router.navigate(['/statistics']);
+  }
 }
